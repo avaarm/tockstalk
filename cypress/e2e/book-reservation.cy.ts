@@ -50,11 +50,11 @@ describe('book reservation', () => {
 	const tid = (id:string, eq:string = '=') => `[data-testid${eq}${id}]`
 
 	function closeTrusteModal() {
-		// NOTE: Enable if in europe
-		// cy.log(':cookie: closing truste modal...')
-		// return cy
-		// 	.get('#truste-consent-required')
-		// 	.click() 
+	//	NOTE: Enable if in europe
+		cy.log(':cookie: closing truste modal...')
+		return cy
+			.get('#truste-consent-required')
+			.click() 
 	}
 
 	function fetchAvailableDays() {
@@ -102,7 +102,13 @@ describe('book reservation', () => {
 
 	function visit() {
 		const redirect = encodeURIComponent(`${reservation.bookingPage}?size=${reservation.partySize}`)
-		cy.visit(`https://www.exploretock.com/login?continue=${redirect}`)
+		cy.visit(`https://www.exploretock.com/login?continue=${redirect}, {
+			headers: {
+			  "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
+			}, {
+				failOnStatusCode: false
+			  }`)
+		
 		closeTrusteModal()
 	}
 
